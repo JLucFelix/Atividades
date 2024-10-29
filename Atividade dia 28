@@ -1,3 +1,7 @@
+LISTA 2 
+
+from abc import ABC, abstractmethod
+from datetime import datetime, timedelta
 #EXERCICIO 1 
 class Reserva_Hotel:
     def __init__(self, Hospede: 'Hospede', nmrQ: int, valor_diaria: float, dias:int):
@@ -24,39 +28,186 @@ print(reserva1.Calcular_custo_total())
 
 #EXERCICIO 2 
 class Cliente:
-    def __init__(self, nome:str, endereco: str, lista_favoritos: list[dict]):
+    def __init__(self, nome: str, endereco: str, lista_favoritos: list):
         self.nome = nome
         self.endereco = endereco
         self.lista_favoritos = lista_favoritos
-    def Criar_lista_favoritos(self):
-        self.lista_favoritos.append((Restaurante.nome_estabelecimento))
-        return (f"Os favoritos são: {self.lista_favoritos}")
-    def Retornar_info(self):
-        return (f"Cliente {self.nome}, endereço {self.endereco}")
+
+    def criar_lista_favoritos(self, restaurante):
+        self.lista_favoritos.append(restaurante.nome_estabelecimento)
+        return f"Os favoritos são: {self.lista_favoritos}"
+
+    def retornar_info(self):
+        return f"Cliente {self.nome}, endereço {self.endereco}"
+
 
 class Pedido:
-    def __init__(self, Cliente: 'Cliente', lista_itens: list[dict]):
+    def __init__(self, cliente: Cliente, lista_itens: list[dict]):
         self.lista_itens = lista_itens
-        self.Cliente = Cliente
-    def Adicionar_itens(self, item_valor: float, item_nome: str):
-        self.item_valor = item_valor
-        self.item_nome = item_nome
-        self.lista_itens.append((self.item_nome, self.item_valor))
+        self.cliente = cliente
+
+    def adicionar_itens(self, item_nome: str, item_valor: float):
+        self.lista_itens.append({"Nome": item_nome, "Valor": item_valor})
+
     def valor_total(self):
         soma = 0
         for item in self.lista_itens:
-            somatoria += item.get("valor") 
+            soma += item.get("Valor")
         return soma
+
 
 class Restaurante:
     def __init__(self, nome_estabelecimento: str, lista_pedido: list[Pedido]):
         self.nome_estabelecimento = nome_estabelecimento
         self.lista_pedido = lista_pedido
-    def Criar_pedido(self):
-        self.lista_pedido.append(self.lista_pedido)
-pedido1 = Pedido("Jean Lucas", [{"Nome":'Pão', 'Valor':4}, {"Nome": 'Refri', 'Valor': 4}])
-restaurante1 = Restaurante("Bocada", [pedido1])
-cliente1 = Cliente("Jean Lucas", "Rua Tapajos", [restaurante1] )
-print(pedido1.Adicionar_itens(5, "Banana"))
-print(pedido1.valor_total)
 
+    def criar_pedido(self, pedido: Pedido):
+        self.lista_pedido.append(pedido)
+
+
+
+cliente1 = Cliente("Jean Lucas", "Rua Tapajos", [])
+pedido1 = Pedido(cliente1, [{"Nome": 'Pão', 'Valor': 4}, {"Nome": 'Refri', 'Valor': 4}])
+restaurante1 = Restaurante("Bocada", [pedido1])
+pedido1.adicionar_itens("Banana", 5)
+print(f"Valor total do pedido: {pedido1.valor_total()}")
+print(cliente1.retornar_info())
+
+#EXERCICIO 3
+from datetime import datetime
+
+class Projeto:
+    def __init__(self, nome_projeto: str, data_inicio: datetime, lista_membros: list):
+        self.nome_projeto = nome_projeto
+        self.data_inicio = data_inicio
+        self.lista_membros = lista_membros
+
+    def exibir_detalhes(self):
+        return f"Projeto de nome {self.nome_projeto}, data de início {self.data_inicio}, membros {self.lista_membros}"
+
+    def add_membros(self, membro: 'Membros'):
+        self.lista_membros.append({'Nome': membro.nome_membro, 'Email': membro.email})
+
+    def duracao(self, data_termino: datetime):
+        return data_termino - self.data_inicio
+
+
+class Membros:
+    def __init__(self, nome_membro: str, email: str):
+        self.nome_membro = nome_membro
+        self.email = email
+
+membro1 = Membros("Jean Lucas", "jeanlucas.email")
+projeto1 = Projeto("Alpha", datetime(2024, 10, 1), [])
+projeto1.add_membros(membro1)
+print(projeto1.exibir_detalhes())
+data_fim = datetime(2024, 12, 1)
+print(f"Duração do projeto: {projeto1.duracao(data_fim).days} dias")
+
+#EXERCICIO 4
+
+class Tarefa:
+    def __init__(self, descricao: str, data_criacao: datetime, status: bool):
+        self.descricao = descricao
+        self.data_criacao = data_criacao
+        self.status = status
+        self.data_termino = None  
+
+    def concluir(self, data_termino: datetime):
+        self.data_termino = data_termino
+        self.status = True  
+        return "Atividade concluída"
+
+    def exibir_detalhes(self):
+        if self.status:
+            if self.data_termino and self.data_termino > self.data_criacao + timedelta(days=30):
+                status = "Concluída"
+            else:
+                status = "Atrasada"
+        else:
+            status = "Não concluída"
+        
+        return f"Atividade '{self.descricao}', criada no dia {self.data_criacao}, status: {status}"
+
+
+tarefa1 = Tarefa("Atividade de programação", datetime(2024, 10, 1), False)
+print(tarefa1.exibir_detalhes())
+tarefa1.concluir(datetime(2024, 1, 30))
+print(tarefa1.exibir_detalhes())
+
+#EXERCICIO 5
+class MetodoPagamento(ABC):
+    @abstractmethod
+    def processar_pagamento(self, valor: float):
+        pass
+    def Realizar_Pagamento(self, valor:float):
+        return self.processar_pagamento(valor)
+class Pix(MetodoPagamento):
+    def processar_pagamento(self, valor):
+        return f"Pagamento de R${valor:.2f} por Pix"
+class Cartao_debito(MetodoPagamento):
+    def processar_pagamento(self, valor):
+        return f"Pagamento de R${valor:.2f} por Cartão de Debito"
+class Cartao_credito(MetodoPagamento):
+    def processar_pagamento(self, valor):
+        return f"Pagamento de R${valor:.2f} por Cartão de Credito"
+
+valorcompra = 100.0
+pix_pagamento = Pix()
+print(pix_pagamento.Realizar_Pagamento(valorcompra))
+debito = Cartao_debito()
+print(debito.Realizar_Pagamento(valorcompra))
+cartão = Cartao_credito()
+print(cartão.Realizar_Pagamento(valorcompra))
+
+#EXERCICIO 6
+
+from datetime import datetime
+
+class Estacionamento:
+    def __init__(self, taxa: float, placa: str, marca: str, modelo: str, hora_chegada: datetime):
+        self.taxa = taxa
+        self.placa = placa
+        self.marca = marca
+        self.modelo = modelo
+        self.hora_chegada = hora_chegada
+
+class Carro(Estacionamento):
+    def __init__(self, taxa: float, placa: str, marca: str, modelo: str, hora_chegada: datetime, hora_saida: datetime):
+        super().__init__(taxa, placa, marca, modelo, hora_chegada)
+        self.hora_saida = hora_saida
+    def Calcular_taxa(self):
+        diferenca = self.hora_saida - self.hora_chegada
+        horas_totais = diferenca.total_seconds() / 3600
+        return (f"Total da taxa por hora no estacionamento é de R${horas_totais * self.taxa:.2f}, "
+                f"equivalente a {horas_totais:.2f} horas")
+
+class Moto(Estacionamento):
+    def __init__(self, taxa: float, placa: str, marca: str, modelo: str, hora_chegada: datetime, hora_saida: datetime):
+        super().__init__(taxa, placa, marca, modelo, hora_chegada)
+        self.hora_saida = hora_saida
+    def Calcular_taxa(self):
+        diferenca = self.hora_saida - self.hora_chegada
+        horas_totais = diferenca.total_seconds() / 3600
+        return (f"Total da taxa por hora no estacionamento é de R${horas_totais * self.taxa:.2f}, "
+                f"equivalente a {horas_totais:.2f} horas")
+
+class VUC(Estacionamento):
+    def __init__(self, taxa: float, placa: str, marca: str, modelo: str, hora_chegada: datetime, hora_saida: datetime):
+        super().__init__(taxa, placa, marca, modelo, hora_chegada)
+        self.hora_saida = hora_saida
+    def Calcular_taxa(self):
+        diferenca = self.hora_saida - self.hora_chegada
+        horas_totais = diferenca.total_seconds() / 3600
+        return (f"Total da taxa por hora no estacionamento é de R${horas_totais * self.taxa:.2f}, "
+                f"equivalente a {horas_totais:.2f} horas")
+
+carro1 = Carro(5.0, "ABC1234", "Fusca", "Fusca", datetime(2024,10,1,10,0), datetime(2024,10,1,15,0))
+print(carro1.Calcular_taxa())
+moto1 = Moto(2.5, "XYZ5678", "Honda", "CB500", datetime(2024,10,1,10,0), datetime(2024,10,1,15,0))
+print(moto1.Calcular_taxa())
+vuc1 = VUC(12.0, "VUC1010", "Mercedes", "Sprinter", datetime(2024,10,1,10,0), datetime(2024,10,1,15,0))
+print(vuc1.Calcular_taxa())
+
+-----------------------------------------------------------------------------------------------------------------------
+Lista 4
