@@ -1,0 +1,62 @@
+#EXERCICIO 1 
+class Reserva_Hotel:
+    def __init__(self, Hospede: 'Hospede', nmrQ: int, valor_diaria: float, dias:int):
+        self.Hospede = Hospede
+        self.nmrQ = nmrQ
+        self.valor_diaria = valor_diaria
+        self.dias = dias
+    def Calcular_custo_total(self):
+        return (f"O valor total da diaria do quarto nmrº {self.nmrQ} do hospede {self.Hospede.nome} de cpf {self.Hospede.cpf}, é R$ {self.valor_diaria * self.dias}, referente aos {self.dias} decorridos.")
+
+class Hospede:
+    def __init__(self, nome: str, cpf: str, data_nascimento: str, idade: int):
+        self.nome = nome
+        self.cpf = cpf
+        self.data_nascimento = data_nascimento
+        self.idade = idade 
+    def RetornaIdade(self):
+        return (f"A idade é {self.idade} anos")
+
+hospede1 = Hospede("Jean Lucas", "553.780.458-19", "7/2/2006", 18)
+reserva1 = Reserva_Hotel(hospede1, 14, float(600), 2)
+print(hospede1.RetornaIdade())
+print(reserva1.Calcular_custo_total())
+
+#EXERCICIO 2 
+class Cliente:
+    def __init__(self, nome:str, endereco: str, lista_favoritos: list[dict]):
+        self.nome = nome
+        self.endereco = endereco
+        self.lista_favoritos = lista_favoritos
+    def Criar_lista_favoritos(self):
+        self.lista_favoritos.append((Restaurante.nome_estabelecimento))
+        return (f"Os favoritos são: {self.lista_favoritos}")
+    def Retornar_info(self):
+        return (f"Cliente {self.nome}, endereço {self.endereco}")
+
+class Pedido:
+    def __init__(self, Cliente: 'Cliente', lista_itens: list[dict]):
+        self.lista_itens = lista_itens
+        self.Cliente = Cliente
+    def Adicionar_itens(self, item_valor: float, item_nome: str):
+        self.item_valor = item_valor
+        self.item_nome = item_nome
+        self.lista_itens.append((self.item_nome, self.item_valor))
+    def valor_total(self):
+        soma = 0
+        for item in self.lista_itens:
+            somatoria += item.get("valor") 
+        return soma
+
+class Restaurante:
+    def __init__(self, nome_estabelecimento: str, lista_pedido: list[Pedido]):
+        self.nome_estabelecimento = nome_estabelecimento
+        self.lista_pedido = lista_pedido
+    def Criar_pedido(self):
+        self.lista_pedido.append(self.lista_pedido)
+pedido1 = Pedido("Jean Lucas", [{"Nome":'Pão', 'Valor':4}, {"Nome": 'Refri', 'Valor': 4}])
+restaurante1 = Restaurante("Bocada", [pedido1])
+cliente1 = Cliente("Jean Lucas", "Rua Tapajos", [restaurante1] )
+print(pedido1.Adicionar_itens(5, "Banana"))
+print(pedido1.valor_total)
+
