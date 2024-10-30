@@ -211,3 +211,73 @@ print(vuc1.Calcular_taxa())
 
 -----------------------------------------------------------------------------------------------------------------------
 Lista 4
+
+class Ingresso:
+    def __init__(self, valor: float):
+        self.valor = valor
+    def Retornar_valor(self):
+        return self.valor
+
+class VIP(Ingresso):
+    def __init__(self, valor: float, taxa: float):
+        super().__init__(valor)
+        self.taxa = taxa
+    def Retornar_valor(self):
+        return f"Valor do ingresso VIP é de R${self.valor + (self.valor * self.taxa):.2f}"
+
+class Normal(Ingresso):
+    pass
+
+class Camarote_inferior(VIP):
+    def __init__(self, valor: float, taxa: float, local: str):
+        super().__init__(valor, taxa)
+        self.local = local
+    def Exibir_local(self):
+        return f"O local do camarote inferior é {self.local}"
+
+class Camarote_superior(VIP):
+    def __init__(self, valor: float, taxa: float, local: str):
+        super().__init__(valor, taxa)
+        self.local = local
+    def Exibir_local(self):
+        return f"O local do camarote superior é {self.local}"
+
+vip1 = VIP(500.0, 0.075)
+print(vip1.Retornar_valor())
+camarote_inferior1 = Camarote_inferior(500.0, 0.075, "4º andar")
+print(camarote_inferior1.Exibir_local())
+print(camarote_inferior1.Retornar_valor())
+camarote_superior1 = Camarote_superior(500.0, 0.075, "2º andar")
+print(camarote_superior1.Exibir_local())
+print(camarote_superior1.Retornar_valor())
+
+#Exercicio 2
+
+class Imovel:
+    def __init__(self, endereco: str, preco_base: float):
+        self.endereco = endereco
+        self.preco_base = preco_base
+
+    def Exibir_precos(self, valor_modificador: float):
+        preco_final = self.preco_base + (self.preco_base * valor_modificador)
+        return f"Endereço: {self.endereco}\nPreço base: R${self.preco_base:.2f}, Preço final: R${preco_final:.2f}"
+
+class Novo(Imovel):
+    def __init__(self, Imovel: 'Imovel', acrescimo: float):
+        self.Imovel = Imovel
+        self.acrescimo = acrescimo  
+    def Exibir_precos(self):
+        return super().Exibir_precos(self.acrescimo)
+
+class Usado(Imovel):
+    def __init__(self, Imovel: 'Imovel', desconto: float):
+        self.desconto = desconto
+        self.Imovel = Imovel  
+    def Exibir_precos(self):
+        return super().Exibir_precos(-self.desconto) 
+
+imovel1 = Imovel("Rua Tapajos", 500.0)
+novo = Novo(imovel1, 0.05)
+usado = Usado(imovel1, 0.05)
+print(usado.Exibir_precos())
+
