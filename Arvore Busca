@@ -1,5 +1,5 @@
-include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct No {
 	int conteudo;
@@ -7,31 +7,29 @@ typedef struct No {
 	struct No* dir;
 } No;
 
-No* criarNo(int qtd) {
-	No* novo_no;
-	if (qtd == 0)
-		novo_no = NULL;
-	else
-	{
-		novo_no = (No*)calloc(1, sizeof(No));
-		printf("Digite o valor: ");
-		scanf_s("%d", &novo_no->conteudo);
-		novo_no->esq = criarNo(qtd / 2);
-		novo_no->dir = criarNo(qtd - qtd / 2 - 1);
-	}
+// Função para criar um novo nó
+No* criarNo(int valor) {
+	No* novo_no = (No*)malloc(sizeof(No));
+	novo_no->conteudo = valor;
+	novo_no->esq = NULL;
+	novo_no->dir = NULL;
 	return novo_no;
 }
 
-void apresentar(No* raiz)
-{
-	if (raiz != NULL)
-	{
-		printf("%d ", raiz->conteudo);
-		apresentar(raiz->dir);
-		apresentar(raiz->esq);
+// Função para inserir um valor na árvore binária de busca
+No* inserir(No* raiz, int valor) {
+	if (raiz == NULL) {
+		return criarNo(valor);
 	}
+	if (valor < raiz->conteudo) {
+		raiz->esq = inserir(raiz->esq, valor);
+	} else if (valor > raiz->conteudo) {
+		raiz->dir = inserir(raiz->dir, valor);
+	}
+	return raiz;
 }
 
+// Funções de travessia da árvore
 void preOrdem(No* raiz) {
 	if (raiz != NULL) {
 		printf("%d ", raiz->conteudo);
@@ -56,20 +54,26 @@ void inOrdem(No* raiz) {
 	}
 }
 
-void ArvoreBusca(No* raiz) {
-	if (raiz != NULL) {
-		if (printf("%d ", raiz->conteudo) < raiz)
-			ArvoreBusca(raiz->esq);
-		else
-		{
-			ArvoreBusca(raiz->dir);
-		}
-	}
-}
+int main() {
+	No* Raiz = NULL;
+	int valor;
 
-int main()
-{
-	No* Raiz;
-	Raiz = criarNo(10);
-	apresentar(Raiz);
+	// Inserir 10 valores na árvore
+	printf("Digite 10 valores para a árvore de busca:\n");
+	for (int i = 0; i < 10; i++) {
+		printf("Digite o valor %d: ", i + 1);
+		scanf("%d", &valor);
+		Raiz = inserir(Raiz, valor);
+	}
+
+	printf("\nExibindo em Pre-Ordem: ");
+	preOrdem(Raiz);
+
+	printf("\nExibindo em In-Ordem: ");
+	inOrdem(Raiz);
+
+	printf("\nExibindo em Pos-Ordem: ");
+	posOrdem(Raiz);
+
+	return 0;
 }
