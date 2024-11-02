@@ -21,7 +21,8 @@ No* inserir(No* raiz, int valor) {
 	}
 	if (valor < raiz->conteudo) {
 		raiz->esq = inserir(raiz->esq, valor);
-	} else if (valor > raiz->conteudo) {
+	}
+	else if (valor > raiz->conteudo) {
 		raiz->dir = inserir(raiz->dir, valor);
 	}
 	return raiz;
@@ -58,12 +59,17 @@ int main() {
 	printf("Insira uns 10 valores para a árvore de busca:\n");
 	for (int i = 0; i < 10; i++) {
 		printf("Digite o valor %d: ", i + 1);
-		scanf("%d", &valor);
+		scanf_s("%d", &valor);
 		Raiz = inserir(Raiz, valor);
 	}
 
+	printf("\n Pre ordem: \n");
 	preOrdem(Raiz);
+	
+	printf("\n In ordem: \n");
 	inOrdem(Raiz);
+	
+	printf("\n Pos ordem: \n");
 	posOrdem(Raiz);
 
 	return 0;
