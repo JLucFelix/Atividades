@@ -7,7 +7,6 @@ typedef struct No {
 	struct No* dir;
 } No;
 
-// Função para criar um novo nó
 No* criarNo(int valor) {
 	No* novo_no = (No*)malloc(sizeof(No));
 	novo_no->conteudo = valor;
@@ -16,7 +15,6 @@ No* criarNo(int valor) {
 	return novo_no;
 }
 
-// Função para inserir um valor na árvore binária de busca
 No* inserir(No* raiz, int valor) {
 	if (raiz == NULL) {
 		return criarNo(valor);
@@ -29,7 +27,6 @@ No* inserir(No* raiz, int valor) {
 	return raiz;
 }
 
-// Funções de travessia da árvore
 void preOrdem(No* raiz) {
 	if (raiz != NULL) {
 		printf("%d ", raiz->conteudo);
@@ -58,21 +55,15 @@ int main() {
 	No* Raiz = NULL;
 	int valor;
 
-	// Inserir 10 valores na árvore
-	printf("Digite 10 valores para a árvore de busca:\n");
+	printf("Insira uns 10 valores para a árvore de busca:\n");
 	for (int i = 0; i < 10; i++) {
 		printf("Digite o valor %d: ", i + 1);
 		scanf("%d", &valor);
 		Raiz = inserir(Raiz, valor);
 	}
 
-	printf("\nExibindo em Pre-Ordem: ");
 	preOrdem(Raiz);
-
-	printf("\nExibindo em In-Ordem: ");
 	inOrdem(Raiz);
-
-	printf("\nExibindo em Pos-Ordem: ");
 	posOrdem(Raiz);
 
 	return 0;
