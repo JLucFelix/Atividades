@@ -1,0 +1,44 @@
+#Atividade 1
+from abc import abstractmethod, ABC
+
+class Contribuinte:
+    def __init__(self, nome: str, renda_bruta: float):
+        self.nome = nome
+        self.renda_bruta = renda_bruta 
+    def CalcularImposto(self):
+        pass
+
+class Pessoa_fisica(Contribuinte):
+    def __init__(self, nome: str, renda_bruta: float):
+        super().__init__(nome, renda_bruta)
+        
+    def CalcularImposto(self):
+        if self.renda_bruta < 1400:
+            aliquota = 0
+            parcela = 0
+        elif self.renda_bruta <= 2100.0:
+            aliquota = 0.10
+            parcela = 100.00
+        elif self.renda_bruta <= 2800.01:
+            aliquota = 0.15
+            parcela = 270.00
+        elif self.renda_bruta <= 3600.0:
+            aliquota = 0.25
+            parcela = 500.00
+        elif self.renda_bruta > 3600.01:
+            aliquota = 0.30
+            parcela = 700.00
+        imposto = (self.renda_bruta * aliquota) - parcela
+        return f"\nO imposto da pessoa fisica {self.nome} é de R${imposto:.2f} acrescido os respectivos impostos \n"
+
+class Pessoa_juridica(Contribuinte):
+    def __init__(self, nome: str, renda_bruta: float):
+        super().__init__(nome, renda_bruta)
+    def CalcularImposto(self):
+        return f"\nO imposto da pessoa juridica {self.nome} é de R${self.renda_bruta*0.10} acrescido os 10% \n"
+        
+    
+Pessoa_juridica1 = Pessoa_juridica("Jean Lucas", 4000.0)
+print(Pessoa_juridica1.CalcularImposto())
+Pessoa_fisica1 = Pessoa_fisica("Jean Lucas", 4000.0)
+print(Pessoa_fisica1.CalcularImposto())
