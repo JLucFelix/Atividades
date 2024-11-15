@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+//void insertionSort(int* vetor, int tamanho) {
+//	int i, j;
+//	int temp;
+//	for (i = 1; i < tamanho; i++) {
+//		temp = vetor[i];
+//		j = i - 1;
+//		while (j >= 0 && vetor[j] < temp) {
+//			vetor[j + 1] = vetor[j];
+//			j = j - 1;
+//		}
+//		vetor[j + 1] = temp;
+//	}
+//}
+//int main() {
+//	int* vetor;
+//	vetor = (int*)calloc(5, sizeof(int));
+//	vetor[0] = 7;
+//	vetor[1] = 2;
+//	vetor[2] = 1;
+//	vetor[3] = 4;
+//	vetor[4] = 5;
+//	insertionSort(vetor, 5);
+//	for (int i = 0; i < 5; i++) {
+//		printf("%d ", vetor[i]);
+//	}
+//}
+
+//void bubbleSort(int* vetor, int tamanho) {
+//	for (int i = 0; i < tamanho - 1; i++) {
+//		for (int j = 0; j < tamanho - i - 1;j++) {
+//			if (vetor[j] < vetor[j + 1]) {
+//				int temp = vetor[j];
+//				vetor[j] = vetor[j + 1];
+//				vetor[j + 1] = temp;
+//			}
+//		}
+//	}
+//}
+//int main() {
+//	int* vetor;
+//	vetor = (int*)calloc(5, sizeof(int));
+//	vetor[0] = 7;
+//	vetor[1] = 2;
+//	vetor[2] = 1;
+//	vetor[3] = 4;
+//	vetor[4] = 5;
+//	bubbleSort(vetor, 5);
+//	for (int i = 0; i < 5; i++) {
+//		printf("%d ", vetor[i]);
+//	}
+//}
+	
+
+void bubbleSortDecrescente(int* vetor, int tamanho) {
+	for (int i = 0; i < tamanho - 1; i++) {
+		for (int j = 0; j < tamanho - i - 1;j++) {
+			if (vetor[j] < vetor[j + 1]) {
+					int temp = vetor[j];
+				vetor[j] = vetor[j + 1];
+				vetor[j + 1] = temp;
+			}
+		}
+	}
+}
+
+void bubbleSortCrescente(int* vetor, int tamanho) {
+	for (int i = 0; i < tamanho - 1; i++) {
+		for (int j = 0; j < tamanho - i - 1;j++) {
+			if (vetor[j] > vetor[j + 1]) {
+					int temp = vetor[j];
+				vetor[j] = vetor[j + 1];
+				vetor[j + 1] = temp;
+			}
+		}
+	}
+}
+
+int main() {
+	int escolha = 0;
+	printf("escolha se será crescente ou decrescente");
+	scanf_s("%d", &escolha);
+	printf("Escreva os valores dos vetores ")
+	int* vetor;
+	if (escolha == 1){
+		vetor = (int*)calloc(5, sizeof(int));
+		bubbleSortCrescente(vetor, 5);
+		for (int i = 0; i < 5; i++) {
+			printf("%d ", vetor[i]);
+			break;
+		}
+	}
+	else{
+		vetor = (int*)calloc(5, sizeof(int));
+		bubbleSortCrescente(vetor, 5);
+		for (int i = 0; i < 5; i++) {
+			printf("%d ", vetor[i]);
+			break;
+		}
+
+	}
+	printf("Digite 5 numeros para os vetores");
+	scanf_s("%d", &vetor);
+	vetor = (int*)calloc(5, sizeof(int));
+	vetor[0] = 7;
+	vetor[1] = 2;
+	vetor[2] = 1;
+	vetor[3] = 4;
+	vetor[4] = 5;
+}
