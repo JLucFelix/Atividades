@@ -51,61 +51,109 @@
 //		printf("%d ", vetor[i]);
 //	}
 //}
-	
+
+//void bubbleSortCrescente(int* vetor, int tamanho) {
+//    for (int i = 0; i < tamanho - 1; i++) {
+//        for (int j = 0; j < tamanho - i - 1; j++) {
+//            if (vetor[j] > vetor[j + 1]) {
+//                int temp = vetor[j];
+//                vetor[j] = vetor[j + 1];
+//                vetor[j + 1] = temp;
+//            }
+//        }
+//    }
+//}
+//
+//void bubbleSortDecrescente(int* vetor, int tamanho) {
+//    for (int i = 0; i < tamanho - 1; i++) {
+//        for (int j = 0; j < tamanho - i - 1; j++) {
+//            if (vetor[j] < vetor[j + 1]) {
+//                int temp = vetor[j];
+//                vetor[j] = vetor[j + 1];
+//                vetor[j + 1] = temp;
+//            }
+//        }
+//    }
+//}
+//
+//int main() {
+//    int escolha = 0;
+//    int tamanho = 5;
+//
+//    printf("Escolha o tipo de ordenação: 1 para crescente, 2 para decrescente: ");
+//    scanf_s("%d", &escolha);
+//
+//    int* vetor = (int*)calloc(tamanho, sizeof(int));
+//    if (vetor == NULL) {
+//        printf("Erro ao alocar memória.\n");
+//        return 1;
+//    }
+//
+//    printf("Digite %d números para o vetor:\n", tamanho);
+//    for (int i = 0; i < tamanho; i++) {
+//        scanf_s("%d", &vetor[i]);
+//    }
+//
+//    
+//    if (escolha == 1) {
+//        bubbleSortCrescente(vetor, tamanho);
+//        printf("Vetor ordenado em ordem crescente:\n");
+//    }
+//    else if (escolha == 2) {
+//        bubbleSortDecrescente(vetor, tamanho);
+//        printf("Vetor ordenado em ordem decrescente:\n");
+//    }
+//    else {
+//        printf("Opção inválida.\n");
+//        free(vetor);
+//        return 1;
+//    }
+//
+//  
+//    for (int i = 0; i < tamanho; i++) {
+//        printf("%d ", vetor[i]);
+//    }
+//    printf("\n");
+//
+//    free(vetor);
+//
+//    return 0;
+//}
 
 void bubbleSortDecrescente(int* vetor, int tamanho) {
-	for (int i = 0; i < tamanho - 1; i++) {
-		for (int j = 0; j < tamanho - i - 1;j++) {
-			if (vetor[j] < vetor[j + 1]) {
-					int temp = vetor[j];
-				vetor[j] = vetor[j + 1];
-				vetor[j + 1] = temp;
-			}
-		}
-	}
-}
-
-void bubbleSortCrescente(int* vetor, int tamanho) {
-	for (int i = 0; i < tamanho - 1; i++) {
-		for (int j = 0; j < tamanho - i - 1;j++) {
-			if (vetor[j] > vetor[j + 1]) {
-					int temp = vetor[j];
-				vetor[j] = vetor[j + 1];
-				vetor[j + 1] = temp;
-			}
-		}
-	}
+    for (int i = 0; i < tamanho - 1; i++) {
+        for (int j = 0; j < tamanho - i - 1; j++) {
+            if (vetor[j] < vetor[j + 1]) {
+                int temp = vetor[j];
+                vetor[j] = vetor[j + 1];
+                vetor[j + 1] = temp;
+            }
+        }
+    }
 }
 
 int main() {
-	int escolha = 0;
-	printf("escolha se será crescente ou decrescente");
-	scanf_s("%d", &escolha);
-	printf("Escreva os valores dos vetores ")
-	int* vetor;
-	if (escolha == 1){
-		vetor = (int*)calloc(5, sizeof(int));
-		bubbleSortCrescente(vetor, 5);
-		for (int i = 0; i < 5; i++) {
-			printf("%d ", vetor[i]);
-			break;
-		}
-	}
-	else{
-		vetor = (int*)calloc(5, sizeof(int));
-		bubbleSortCrescente(vetor, 5);
-		for (int i = 0; i < 5; i++) {
-			printf("%d ", vetor[i]);
-			break;
-		}
+    int n;
+    int *vetor;
+    printf("Digite a quantidade de alunos");
+    scanf_s("%d", &n);
+    int* vetor = (int*)calloc(n, sizeof(int));
 
-	}
-	printf("Digite 5 numeros para os vetores");
-	scanf_s("%d", &vetor);
-	vetor = (int*)calloc(5, sizeof(int));
-	vetor[0] = 7;
-	vetor[1] = 2;
-	vetor[2] = 1;
-	vetor[3] = 4;
-	vetor[4] = 5;
+    for (int i = 0; i < n; i++) {
+        float p1, p2;
+        printf("Digite a p1 do aluno", i);
+        scanf_s("%f", &p1);
+        printf("Digite a p2 do aluno", i);
+        scanf_s("%f", &p2);
+        *(vetor + i) = (p1 + p2) / 2;
+    }
+
+    bubbleSortDecrescente(vetor, n);
+    for (int i = 0; i < 0; i++) {
+        printf((*(vetor + i)));
+    }
 }
+
+
+.//faça uma ordenação de um vetor de notas de alunos, usuário digita p1 e p2 sistema calcula a média e insere no vetor. Apos ordena na posição decrescente usando bubble e insert;
+// Crie um codigo em C que ordende os suprimentos de uma navegação espacial o usuario digita quantos são os suprimentos. apos digitar a quantidade digita a prioridade e o peso. ordene por prioridade e se for igual ao peso
