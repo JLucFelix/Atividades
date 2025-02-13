@@ -80,3 +80,56 @@ Route::get('calculadora/{numero1}/{numero2}',function($numero1,$numero2){
     $resultado = $numero1 + $numero2;
     echo 'O resultado é ', $resultado;  
 });
+
+Route::get('teste_query', function(Request $request){
+    $valor1 = $request->query("valor1");
+    $valor2 = $request->query("valor2", "valor_padrão");
+    echo $valor1;
+    echo "\n";
+    echo $valor2;
+});
+
+Route::get('valor_divisivel', function(Request $request){
+    $valor1 = $request->query("valor1");
+    $valor2 = $request->query("valor2", "Deu zica");
+    if ($valor1%$valor2==0){
+        echo $valor1, ' é divisível por ', $valor2;
+    }
+});
+
+Route::get('calculadora/{tipo_calculo}', function(Request $request, $tipo_calculo){
+    $valor1 = $request->query("valor1");
+    $valor2 = $request->query("valor2", "Deu zica");
+    if ($tipo_calculo == 1){
+        $soma = $valor1 + $valor2;
+        echo 'resultado da soma é ', $soma; 
+    }
+    if ($tipo_calculo == 2){
+        $subtracao = $valor1 - $valor2;
+        echo 'resultado da subtração é ', $subtracao;
+    }
+    if ($tipo_calculo == 3){
+        $divisao = $valor1/$valor2;
+        echo 'resultado da divisão é ', $divisao;
+    }
+});
+
+Route::get('mensagem', function(){
+    echo 'Olá Mundo';
+});
+
+Route::post('mensagem', function(){
+    echo 'Olá Pessoas';
+});
+//CALD ou CULD, Criar, Atualizar, Listar, Deletar.
+
+Route::post('dados', function(Request $request){
+    $nome = $request->input('nome');
+    $email = $request->input('email', 'emailpadrao@teste.com');
+    return response()->json(
+        [
+            "nome"=>$nome,
+            "email"=>$email
+        ]
+    );
+});
