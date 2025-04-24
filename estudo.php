@@ -61,6 +61,49 @@
     print "<p>Olá com PRINT";
     $txt1 = "Olá com variável";
     print "<p>$txt1</p>";
+
+    //matematica no php
+    echo (pi()), "</p>";
+    echo (min(0, 2, 33, 5, 60, 10, 22)), " Minimo</p>";
+    echo (max(0, 2, 33, 5, 60, 10, 22)), " Maximo", "</p>";
+    echo (abs(-6.7)), "</p>";
+
+    echo (sqrt(64)), "</p>";
+    echo (rand()), "</p>";
+    echo (rand(10, 100)), "</p>";
+
+    define("Saudacao", "Olá tudo bem");
+    echo Saudacao, "</p>";
+    const meucarro = "uno";
+    echo meucarro, "</p>";
+
+    define("carros", [
+        "bmw",
+        "jaguar",
+        "Toyota"
+    ]);
+    print_r(carros, "</p>");
+    /*
+    Constantes magicas
+    __CLASS__ retorna o nome da classe.
+    __DIR__ retorna o diretorio do arquivo
+    __FILE__ o nome do arquivo incluindo o caminho
+    __FUNCTION__ o nome da função retorna
+    __LINE__ O atual numero da linha
+    __METHOD__ usado na função que pertence a uma classe, retorna nome
+    da função e classe.
+    __NAMESPACE__ o nome do namespace é retornado
+    __TRAIT__ se usado dentro de um trait o nome do trait é retornado
+    ClassName::class retorna o nome da classe especificada e o nome do 
+    namespace se houver.
+    */
+
+
+
+
+
+
+
     ?>
 
 
