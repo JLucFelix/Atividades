@@ -8,7 +8,7 @@ create table marca(
 
 create table modelo(
 	id int auto_increment primary key, 
-    nome_nodelo varcharacter(50) not null,
+    nome_modelo varcharacter(50) not null,
     marca_id int not null,
     foreign key(marca_id) references marca(id)
 );
