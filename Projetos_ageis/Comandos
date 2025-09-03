@@ -1,0 +1,6 @@
+.\venv\Scripts\activate
+pip install flask flask-cors pandas numpy scikit-learn xgboost matplotlib streamlit
+python train_model.py
+python app.py
+cd frontend
+streamlit run app.py
