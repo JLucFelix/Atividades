@@ -1,0 +1,215 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import requests
+from datetime import datetime
+
+# --- Configurações da Página ---
+st.set_page_config(
+    page_title="Fulltime SIM Dashboard",
+    page_icon="🔗",
+    layout="wide"
+)
+
+# --- FUNÇÃO PARA BUSCAR DADOS DA API ---
+@st.cache_data(ttl=900) # Cache de 15 minutos
+def fetch_data_from_api(api_url):
+    """
+    Busca dados de consumo de uma API e os retorna como um DataFrame do Pandas.
+    """
+    try:
+        response = requests.get(api_url)
+        # Se a requisição for bem-sucedida, retorna o status 200
+        if response.status_code == 200:
+            data = response.json()
+            df = pd.DataFrame(data)
+            # Converte 'Mês' para o tipo categórico se a API retornar os dados com meses
+            # Exemplo: df['Mês'] = pd.Categorical(df['Mês'], categories=["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], ordered=True)
+            return df
+        else:
+            st.error(f"Falha ao buscar dados da API. Status code: {response.status_code}")
+            return pd.DataFrame() # Retorna um DataFrame vazio em caso de erro
+    except requests.exceptions.RequestException as e:
+        st.error(f"Erro de conexão com a API: {e}")
+        return pd.DataFrame() # Retorna um DataFrame vazio em caso de erro
+
+
+# --- Barra Lateral de Navegação (Sidebar) ---
+with st.sidebar:
+    st.markdown(
+        f'<img src="https://placehold.co/300x100/E60000/ffffff?text=Fulltime" style="width:100%;">',
+        unsafe_allow_html=True,
+    )
+    st.title("Menu de Navegação")
+    page = st.radio(
+        "Escolha uma página:",
+        ("Página Inicial", "Sobre o Projeto", "Tecnologias", "Sobre Nós", "Dashboard"),
+        label_visibility="collapsed"
+    )
+
+# --- Conteúdo Principal ---
+if page == "Página Inicial":
+    st.title("Bem-vindo ao Painel de Controle 🏠")
+    st.markdown("Navegue pelo menu ao lado para explorar as seções do projeto.")
+
+elif page == "Sobre o Projeto":
+    st.title("Sobre o Projeto 📝")
+    st.subheader("Solução complementar ao FullManager - Gestão de SIM Cards")
+    st.markdown("Este projeto foi desenvolvido como uma solução para visualização e análise de dados de consumo de SIM cards, complementando a plataforma FullManager. O objetivo é oferecer dashboards interativos que permitam aos gestores uma visão clara e detalhada sobre o uso de dados por funcionários e departamentos, facilitando a tomada de decisões estratégicas e o controle de custos.")
+
+elif page == "Tecnologias":
+    st.title("Tecnologias Utilizadas 🚀")
+    st.markdown("""
+    - **Python:** Linguagem de programação principal para toda a lógica de backend e manipulação de dados.
+    - **Streamlit:** Framework utilizado para a construção da interface web interativa e dos dashboards.
+    - **Pandas:** Biblioteca para manipulação e análise de dados, essencial para o processamento das informações de consumo.
+    - **Plotly Express:** Biblioteca para a criação de gráficos interativos e visualmente atraentes.
+    - **Requests:** Biblioteca para fazer requisições HTTP para a API.
+    """)
+
+elif page == "Sobre Nós":
+    st.title("Sobre Nós 👥")
+    st.markdown("Conheça a equipe responsável pelo desenvolvimento deste projeto.")
+    st.divider()
+
+    participantes = [
+        {
+            "nome": "Diego",
+            "ra": "1989361",
+            "funcao": "Back-end e modelo de predição.",
+            "instagram_user": "diegoartero_"
+        },
+        {
+            "nome": "Fernando",
+            "ra": "1990340",
+            "funcao": "Banco de dados.",
+            "instagram_user": "fernandocaffer"
+        },
+        {
+            "nome": "Guilherme",
+            "ra": "1991991",
+            "funcao": "Front-end.",
+            "instagram_user": "guilherme.morrone"
+        },
+        {
+            "nome": "Henrique",
+            "ra": "1992437",
+            "funcao": "Documentação do Projeto e Criação de Conteúdo.",
+            "instagram_user": "rick.grram"
+        },
+        {
+            "nome": "Jean",
+            "ra": "2012388",
+            "funcao": "Front-end.",
+            "instagram_user": "jeanlucflx"
+        },
+        {
+            "nome": "João",
+            "ra": "1993739",
+            "funcao": "Gerenciamento de Dados e Testes (QA).",
+            "instagram_user": "Nissimura_"
+        },
+        {
+            "nome": "Kaique",
+            "ra": "1994836",
+            "funcao": "Gerenciamento de Dados e Testes (QA).",
+            "instagram_user": "kaikerenan11"
+        },
+        {
+            "nome": "Leonardo",
+            "ra": "1995657",
+            "funcao": "Gerenciamento de Dados e Testes (QA).",
+            "instagram_user": "toledx"
+        },
+        {
+            "nome": "Maria Elisa",
+            "ra": "2013350",
+            "funcao": "Front-end.",
+            "instagram_user": "mary_elisa7"
+        }
+    ]
+
+    col1, col2 = st.columns(2)
+
+    for i, participante in enumerate(participantes):
+        container = col1 if i % 2 == 0 else col2
+        with container:
+            st.subheader(participante["nome"])
+            st.write(f"**RA:** {participante['ra']}")
+            st.write(f"**Contribuição:** {participante['funcao']}")
+            insta_link = f'https://www.instagram.com/{participante["instagram_user"]}'
+            st.markdown(f'<a href="{insta_link}" target="_blank" style="color: #E60000; text-decoration: none;">🔗 Perfil do Instagram</a>', unsafe_allow_html=True)
+            st.write("---")
+
+elif page == "Dashboard":
+    st.title("🔗 Dashboard de Consumo Unificado")
+    st.markdown("Use os filtros abaixo para analisar o consumo de dados da empresa, departamentos e funcionários.")
+
+    # --- ATENÇÃO: SUBSTITUA A URL ABAIXO PELA SUA URL DE API REAL ---
+    api_url = "https://sua-api.com/consumo-sim-cards" 
+
+    # Carrega os dados da API
+    df = fetch_data_from_api(api_url)
+
+    # Verifica se o DataFrame não está vazio antes de continuar
+    if not df.empty:
+        # Pega a lista de meses da API, caso ela exista, ou um valor padrão
+        meses_atuais = df['Mês'].unique() if 'Mês' in df.columns else ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+        df['Mês'] = pd.Categorical(df['Mês'], categories=meses_atuais, ordered=True)
+
+        # --- Filtros Dinâmicos ---
+        st.subheader("Filtros Interativos")
+        col1, col2 = st.columns(2)
+        with col1:
+            all_departments = df['Departamento'].unique()
+            selected_depts = st.multiselect("Filtrar por Departamento:", options=all_departments, default=all_departments)
+
+        with col2:
+            available_employees = df[df['Departamento'].isin(selected_depts)]['Nome'].unique()
+            selected_employees = st.multiselect("Filtrar por Funcionário:", options=available_employees, default=available_employees)
+
+        # Aplica os filtros ao DataFrame
+        df_filtered = df[(df['Departamento'].isin(selected_depts)) & (df['Nome'].isin(selected_employees))]
+
+        st.divider()
+
+        # --- KPIs Dinâmicos ---
+        total_consumo = df_filtered['Consumo (GB)'].sum()
+        total_plano = df_filtered.drop_duplicates(subset=['Nome'])['Plano (GB)'].sum()
+        utilizacao = (total_consumo / (total_plano * len(meses_atuais))) * 100 if total_plano > 0 else 0
+
+        kpi1, kpi2, kpi3 = st.columns(3)
+        kpi1.metric("Consumo Total no Período", f"{total_consumo:.2f} GB")
+        kpi2.metric("Soma dos Planos Mensais", f"{total_plano:.2f} GB")
+        kpi3.metric("Utilização Média", f"{utilizacao:.2f}%")
+
+        st.divider()
+
+        # --- Gráficos Principais ---
+        st.subheader("Análise de Consumo")
+
+        df_monthly_total = df_filtered.groupby('Mês')['Consumo (GB)'].sum().reset_index()
+        fig_line = px.line(df_monthly_total, x='Mês', y='Consumo (GB)', markers=True,
+                            title="Evolução do Consumo Mensal Total")
+        fig_line.update_traces(line_color='#E60000')
+        st.plotly_chart(fig_line, use_container_width=True)
+
+        gcol1, gcol2 = st.columns(2)
+        with gcol1:
+            df_dept_breakdown = df_filtered.groupby('Departamento')['Consumo (GB)'].sum().sort_values(ascending=False).reset_index()
+            fig_bar_dept = px.bar(df_dept_breakdown, x='Departamento', y='Consumo (GB)', color='Departamento',
+                                    title="Consumo Total por Departamento")
+            st.plotly_chart(fig_bar_dept, use_container_width=True)
+
+        with gcol2:
+            df_employee_breakdown = df_filtered.groupby('Nome')['Consumo (GB)'].sum().sort_values(ascending=False).reset_index().head(15)
+            fig_bar_emp = px.bar(df_employee_breakdown, x='Nome', y='Consumo (GB)', color='Nome',
+                                    title="Top 15 Funcionários por Consumo Total")
+            st.plotly_chart(fig_bar_emp, use_container_width=True)
+
+        # --- Tabela de Dados Detalhados ---
+        with st.expander("Ver tabela de dados detalhados (filtrados)"):
+            st.dataframe(df_filtered, use_container_width=True)
+
+    else:
+        st.warning("Não foi possível carregar os dados. Por favor, verifique a URL da API e a conexão.")
