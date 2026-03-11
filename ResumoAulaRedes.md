@@ -1,58 +1,86 @@
-# Resumo Aula 3/3/2026 Jean #
-
--- Topologias de Rede -- 
-Topologia : Estrela  
-Física - Estrela 
-Lógica - Barramento através de Hub/Switch
-
-Datagramas - Pulsos elétricos que carregam data
-
-Hub - Recebe o datagrama e direciona pelo barramento para todos os dispositivos conectados, parecido com um Repetidor com mais capacidade de conexões e portas.
-Switch - Recebe o datagrama e direciona com base no Origem/Destino a partir de uma lista/tabela chamada CAM, livrando o fluxo de muitas colisões, parecido com uma Ponte com maior capacidade de conexões e portas.
-Cada Dispositivo é distinto e identificado pelo MAC (Endereço físico), e IP (Endereço Lógico)
-
-Dominio de colisão - Em Hubs - Dispositivos que permitem colisão, logo um hub com 3 dispositivos faz parte de um único Domínio. - Em switchs - Os dominios de colisão se concentram nos proprios dispositivos, já que todos os datagramas são enviados de forma inteligente e evitando colisões.
-
-Modelo Referência OSI - Garante selos de qualidade para a empresa, com uma series de protocolos para melhor gestão da segurança. 
--- Divide a rede em 7 camadas independentes (Layers): 
-* Aplicação 7
-* Apresentação 6
-* Sessão 5
-* Transporte 4 : Controle de fluxo(Rapidez de transmissão e integridade de dados).
-* Rede 3
-* Enlace 2 
-* Física 1 
-
-Começamos de cima para baixo, cada camada possui protocolos que permitem seu funcionamento.
-
-[*LAYER 7*: Interação humano-computador, onde aplicações podem acessar a rede.]
-[*LAYER 6*: Se certifica de que a informação está em um formato usável, também é onde a criptografia do dado ocorre. Aqui o Payload ocorre, criando uma tradução dos dados de entrada para que o outro dispositivo possa entender. Essa camada Traduz, Compacta e Criptografa os dados.]
-[*LAYER 5*: Mantém conexões e é responsável por controlar portas e sessões, garantindo que haja tempo suficiente para transmissão dos dados e o encerramento para evitar disperdicio de recursos. Essa camada também sincroniza a transferência dos dados em pontos(checkpoints), para que caso haja alguma interrupção, quando reestabelecida a conexão, voltem do ultimo ponto.] 
-[*LAYER 4*: Responsável pelo transporte de ponta a ponta entre os dispositivos, utiliza os dados da camada de sessão e divide-os em porções chamados de segmentos, então, a camada de transporte do dispositivo receptor remonta os segmentos em dados que a camada de sessão possa consumir, aqui utilizamos o TCP/IPC.]
-[*LAYER 3*: Realiza o transporte dos dados para dispositivos conectados em redes diferentees, dividindo os dados em segmentos da camada de transporte em unidades menores chamados pacotes no dispositivo remetente e remonta os dados no dispositivo receptor. A camada de rede sempre encontra o melhor caminho fisico para que os dados chegem ao seu destino, chamamos isso de Roteamento.]
-[*LAYER 2*: O enlace de dados é semelhante a camada de redes, porém lidamos com dispositivos na mesma rede, ela pega os pacotes da camada de rede e os divide em pedaços menores chamados frames/quadros, ela também é reponsável pelo controle de fluxo e erros na comunicação intrarede.]
-[*LAYER 1*: A camada primordial que envolve transferência de dados como cabos e switchs, também lida com os dados e sua conversão em fluxos de bits, ambas camadas fisicas dos dispositivos em comunicação precisam reconhecer a linguagem binária através de convenções de sinais.]
-
-Quando o dado chega no dispositivo de destino cada camada obtém o dado de seu respeito que vem do dispositivo que enviou.
-
-- Segmentação: Todos os dispositivos enviam informações na rede através de repartições que facilitam o fluxo e diminuem as cargas. 
-A cada camada são adicionados cabeçalhos que levam informações à camada de transporte, todo segmento tem um identificador que facilita na remontagem. Adicionando IP de Destino e IP de Origem,
+# Resumo de Aula: Redes de Computadores 
+**Data:** 03 de março de 2026  
 
 
-//IP: Endereço Hierarquico
-//Pacote: Ecapsulamento de um Segmento.
-//Trafrego de Rajadas: Estabelecimento de comunicações - Handshake triplo.
-//PDU's: Unidade de dados de protocolos de cada camada.
-//Payload: Camadas 5,6,7 Tratamento de dados para que os dispositivos consigam se comunicar propriamente.
-//Protocolos de aplicação HTTP (Hypertext Transfer Protocol), FTP (File Transfer Protocol), DNS(Domain Name System) e SMTP (Simple Mail Transfer Protocol).
-//TCP/IP (Transmission Control Protocol e Internet Protocol) -> Exige confirmações de recebimento e controle de fluxo. Orientado à conexão.
-//SNMP (Simple Network Management Protocol): Protocolo que permite monitoramento da rede.
-//UDP (User Datagram Protocol): -> Não exige confirmações ou controle de fluxo. Não-orientado à conexão.
-//Camada de Payload: Parte da informação no Datagrama, contém os conteúdos à serem transmitidos, protocolos que se comunicam com qualquer dispositivo independente de arquitetura ou diferença, linguagem padrão que permite traduções de datas através de diferentes dispositivos. 
-//Pilha de Protocolos: Sequência de Protocolos que permitem que a informação seja transmitida.
-//Comunicação Virtual: Comunicação entre camadas.
-//ISO 27001 - Modelo de protocolos de segurança.
-//Encapsulamento - Uma camada adiciona algo para a camada inferior.
+---
+
+## 1. Topologias e Dispositivos de Rede
+### Endereços:
+* **Lógico:** IP.
+* **Físico:** MAC.
+### Topologia Estrela
+* **Física:** Configuração em estrela (ponto central).
+* **Lógica:** Comportamento de barramento quando operando através de Hubs ou Switches.
+
+### Componentes e Conceitos Fundamentais
+* **Datagramas:** Pulsos elétricos que transportam dados através do meio físico.
+* **Hub:** Dispositivo que replica o datagrama para todas as portas (broadcast), funcionando de forma análoga a um repetidor multiportas.
+* **Switch:** Direciona datagramas com base no endereço de origem e destino utilizando a tabela **CAM** (*Content Addressable Memory*). Reduz colisões e atua de forma semelhante a uma *Bridge* de alta performance.
+* **Identificação:** Cada dispositivo possui um **MAC Address** (Endereço Físico) e um **IP** (Endereço Lógico).
+
+### Domínios de Colisão
+* **Em Hubs:** Todos os dispositivos conectados compartilham um único domínio de colisão.
+* **Em Switches:** Cada porta individual representa um domínio de colisão isolado, otimizando o fluxo de dados e evitando congestionamentos.
+
+---
+
+## 2. Modelo de Referência OSI
+O modelo OSI (*Open Systems Interconnection*) padroniza a comunicação de rede em 7 camadas independentes para garantir a interoperabilidade entre diferentes sistemas.
+
+
+### Detalhamento das Camadas (Top-Down) // Explicar mais detalhadamnente as camadas COM MAIS TEXTO
+
+| Nível | Camada | Função Principal | Unidade de Dados (PDU) |
+| :--- | :--- | :--- | :--- |
+| 7 | **Aplicação** | Interface para interação humano-computador e serviços de rede. | Dados / Payload |
+| 6 | **Apresentação** | Tradução, compactação e criptografia de dados. | Dados / Payload |
+| 5 | **Sessão** | Gerenciamento de diálogo, controle de portas e sincronização (checkpoints). | Dados / Payload |
+| 4 | **Transporte** | Controle de fluxo, integridade e segmentação (TCP/UDP). | PDU = Segmento |
+| 3 | **Rede** | Roteamento de pacotes entre diferentes redes (Melhor caminho). | PDU = Pacote |
+| 2 | **Enlace** | Comunicação intra-rede, controle de erros e endereçamento MAC. | PDU = Quadro (Frame) |
+| 1 | **Física** | Transmissão de bits brutos através de meios físicos (cabos e sinais). |PDU = Bits |
+
+---
+
+## 3. Processos de Comunicação e Protocolos
+
+### Segmentação e Encapsulamento
+* **PDU's:** Protocol Data Unit
+* **Segmentação:** Divisão da informação em partes menores para facilitar o fluxo e reduzir a carga na rede.
+* **Encapsulamento:** Processo onde cada camada adiciona cabeçalhos específicos (*Headers*) à PDU da camada superior, incluindo informações como IP de origem e destino.
+* **Comunicação Virtual:** Conceito de que uma camada em um dispositivo comunica-se logicamente com a camada equivalente no dispositivo receptor.
+
+### Glossário Técnico e Protocolos //Colocar os nomes de cada protocolos junto da abreviação 
+* **Payload:** Conteúdo útil dos dados tratados nas camadas superiores (5, 6 e 7).
+* **Three-way Handshake:** Processo de estabelecimento de conexão para garantir a sincronia entre dispositivos.
+* **Protocolos de Aplicação:** * **HTTP:** Protocolo de transferência de hipertexto.
+    * **FTP:** Protocolo de transferência de arquivos.
+    * **DNS:** Sistema de resolução de nomes de domínio.
+    * **SMTP:** Protocolo para envio de e-mails.
+* **Protocolos de Transporte:**
+    * **TCP/IP:** Orientado à conexão; exige confirmação de recebimento e controle de fluxo.
+    * **UDP:** Não orientado à conexão; prioriza velocidade sem confirmações.
+    *  **Controle de fluxo:** Confirmações de recebimento de envios de frames, utiliza o TCP, controla a velocidade de envios //Explicar melhor
+* **Monitoramento e Segurança:**
+    * **SNMP:** Protocolo para monitoramento e gerenciamento de rede.
+    * **ISO 27001:** Modelo de padrões para gestão de segurança da informação.
+
+//Explicar todo o caminho para envio, como cada camada interfere nos dados até chegar no outro dispositivo, incluindo os cabeçalhos explicados 
+---
+
+**Data:** 10/03/2026
+
+## 1. 
+explicar FRAME RELAY e comos os quadros vão sendo alterados
+
+IP: Endereçamento e Roteamento, entrega de pacotes. Roteadores possuem tabelas de rotiamento que mostram para onde os pacotes devem chegar, endereçando os pacotes.
+
+## Endereçamento
+* **Hierarquia IP:** Hierarquia de endereços que vão do mais abrangente ao mais específico. Formado por 32 bits em 4 blocos de 8 bits
+* **Bits:**
+
+
+
 
 
 
